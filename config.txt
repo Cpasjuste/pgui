@@ -1,0 +1,6 @@
+general : 
+{
+	roms_path = "./roms";
+};
+
+
