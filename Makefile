@@ -1,9 +1,9 @@
 NAME = pgui
 
-PANDORA = 1
-PSMS = 1
+#PANDORA = 1
+#PSMS = 1
 #PNEOPOP = 1
-#PGNGEO = 1
+PGNGEO = 1
 
 ifdef PANDORA
 CC        = arm-none-linux-gnueabi-gcc
@@ -32,6 +32,10 @@ ifdef PNEOPOP
 OBJECTS   += pneopop/emu.o
 CFLAGS  += -Ipneopop
 endif
+ifdef PGNGEO
+OBJECTS   += pgngeo/emu.o
+CFLAGS  += -Ipgngeo
+endif
 
 OBJECTS   += main.o graphics.o mouse.o config.o sort.o
 
@@ -45,6 +49,9 @@ ifdef PSMS
 endif
 ifdef PNEOPOP
 	cp pneopop/backg.bmp data
+endif
+ifdef PGNGEO
+	cp pgngeo/backg.bmp data
 endif
 
 .cc.o:

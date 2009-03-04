@@ -151,9 +151,9 @@ void gui_load()
 
 void gui_clean()
 {
-	int i;
-	for(i = 0; i < MENU_COUNT; i++)
-		if( text_menu[i] != NULL) SDL_FreeSurface( text_menu[i] );
+	if( text_menu[0] != NULL) SDL_FreeSurface( text_menu[0] );
+	if( text_menu[1] != NULL) SDL_FreeSurface( text_menu[1] );
+	if( text_menu[2] != NULL) SDL_FreeSurface( text_menu[2] );
 
 	if( highlight != NULL) SDL_FreeSurface( highlight );
 	if( confirm_box != NULL) SDL_FreeSurface( confirm_box );
@@ -283,15 +283,15 @@ int gui_confirm_box(char *msg)
 {
 	int done = 0;
 
+	gui_draw();
+	apply_surface_center(400, 240, confirm_box, myscreen);
+	message = TTF_RenderUTF8_Blended( font, msg, WHITE );
+	apply_surface_center(400, 240, message, myscreen);
+	SDL_FreeSurface( message );
+	SDL_Flip(myscreen);
+
 	while(!done)
 	{
-		gui_draw();
-
-		apply_surface_center(400, 240, confirm_box, myscreen);
-		message = TTF_RenderUTF8_Blended( font, msg, WHITE );
-		apply_surface_center(400, 240, message, myscreen);
-		SDL_FreeSurface( message );
-
 		get_mouse_loc();
 
 		if(get_mouse_click(MOUSE_LEFT))
@@ -309,7 +309,6 @@ int gui_confirm_box(char *msg)
 		}
 		else reset_ts_pos = 1;
 
-		SDL_Flip(myscreen);
 		SDL_framerateDelay( &sixteen );
 	}
 	return 0;
@@ -364,12 +363,12 @@ void handle_mouse()
 						}
 						else if(emu->param_type[i] == INT)
 						{
-							if(emu->param_int_value[i] < 9) emu->param_int_value[i]++;
+							if(emu->param_int_value[i] < emu->param_int_value_max[i]) emu->param_int_value[i]++;
 								else  emu->param_int_value[i] = 0;	
 						}
 						else if(emu->param_type[i] == CHAR)
 						{
-							if(emu->param_int_value[i] < PARAM8_OPTIONS_COUNT-1) emu->param_int_value[i]++;
+							if(emu->param_int_value[i] < emu->param_char_value_count[i]) emu->param_int_value[i]++;
 								else emu->param_int_value[i] = 0;
 						}
 						SDL_Delay(120);
@@ -505,7 +504,7 @@ void handle_mouse()
 	{
 		if(exec_app)
 		{
-			if(gui_confirm_box("Launch Application ?"))
+			if(gui_confirm_box("Launch Rom ?"))
 			{
 				emu_exec(app_number); exec_app = 0;
 			}

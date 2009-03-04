@@ -41,6 +41,7 @@ void emu_config_init()
 	strcpy(emu->param_human_readable[3], "Frameskip");
 	emu->param_type[3] = INT;
 	emu->param_int_value[3] = 0;
+	emu->param_int_value_max[3] = 9;
 	emu->param_enabled[3] = 0;
 
 	strcpy(emu->param[4], "--fullspeed");
@@ -64,6 +65,7 @@ void emu_config_init()
 	strcpy(emu->param_char_value[6][5], "2x");
 	strcpy(emu->param_char_value[6][6], "bilinear");
 	strcpy(emu->param_char_value[6][7], "dotmatrix");
+	emu->param_char_value_count[4] = 8;
 	emu->param_int_value[6] = 4;
 	emu->param_enabled[6] = 1;
 
